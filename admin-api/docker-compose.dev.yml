@@ -1,19 +1,19 @@
 version: '3'
 services:
-  product:
-    image: product:latest
+  product-admin-api:
+    image: product-admin-api:latest
     build:
       context: dev.Dockerfile
-    container_name: product
+    container_name: product-admin-api
     ports:
     - '8080:8080'
     tty: true
     links:
-      - product-mysql
+      - product-admin-api-mysql
 
-  product-mysql:
+  product-admin-api-mysql:
     image: mysql:5.7
-    container_name: product-mysql
+    container_name: product-admin-api-mysql
     command: --default-authentication-plugin=mysql_native_password --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --sql-mode=''
     restart: always
     ports:
