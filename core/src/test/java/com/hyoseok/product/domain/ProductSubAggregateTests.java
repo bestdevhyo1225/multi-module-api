@@ -10,11 +10,11 @@ import java.util.stream.IntStream;
 import static org.assertj.core.api.Assertions.*;
 
 @DisplayName("Proudct Sub Aggregate 테스트")
-public class ProductSubAggregateTests {
+class ProductSubAggregateTests {
 
     @Test
     @DisplayName("ProductDescriptionText 엔티티를 생성한다.")
-    public void createProductDescriptionText() {
+    void createProductDescriptionText() {
         // given
         String value = "create description value";
 
@@ -27,7 +27,7 @@ public class ProductSubAggregateTests {
 
     @Test
     @DisplayName("ProductDescriptionVarchar 엔티티를 생성한다.")
-    public void createProductDescriptionVarchars() {
+    void createProductDescriptionVarchars() {
         // given
         List<String> keys = List.of("name", "user_code1", "user_code2");
         List<String> values = List.of("상품1", "테스트1", "테스트2");
@@ -50,7 +50,7 @@ public class ProductSubAggregateTests {
 
     @Test
     @DisplayName("ProductImage 엔티티를 생성한다.")
-    public void createProductImages() {
+    void createProductImages() {
         // given
         boolean isUrl = false;
         String kind = "kind";
@@ -69,7 +69,7 @@ public class ProductSubAggregateTests {
 
     @Test
     @DisplayName("Product 엔티티를 생성한다.")
-    public void createProduct() {
+    void createProduct() {
         // given
         Boolean isSale = true;
         Boolean isUsed = true;
@@ -118,7 +118,7 @@ public class ProductSubAggregateTests {
 
     @Test
     @DisplayName("Product 엔티티의 필드를 변경한다.")
-    public void changeProduct() {
+    void changeProduct() {
         // given
         Boolean isSale = true;
         Boolean isUsed = true;
@@ -146,7 +146,7 @@ public class ProductSubAggregateTests {
 
     @Test
     @DisplayName("ProductDescriptionText 엔티티의 필드를 변경한다.")
-    public void changeProductDescriptionText() {
+    void changeProductDescriptionText() {
         // given
         String description = "description";
 
@@ -160,7 +160,7 @@ public class ProductSubAggregateTests {
 
     @Test
     @DisplayName("ProductDescriptionVarchar 엔티티의 필드를 변경한다.")
-    public void changeProductDescriptionVarchar() {
+    void changeProductDescriptionVarchar() {
         // given
         String value = "테스트1";
 

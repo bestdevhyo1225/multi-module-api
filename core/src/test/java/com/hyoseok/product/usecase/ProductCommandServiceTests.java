@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.*;
 @SpringBootTest
 @Transactional
 @DisplayName("ProductCommandService 테스트")
-public class ProductCommandServiceTests {
+class ProductCommandServiceTests {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -33,7 +33,7 @@ public class ProductCommandServiceTests {
 
     @Test
     @DisplayName("Product Sub Aggregate를 저장하고, Id를 반환한다.")
-    public void createProductSubAggregate() {
+    void createProductSubAggregate() {
         // given
         ProductMapper productMapper = ProductMapper.builder()
                 .isSale(true)
@@ -121,7 +121,7 @@ public class ProductCommandServiceTests {
 
     @Test
     @DisplayName("Product Sub Aggregate에서 엔티티의 필드 값이 변경되면, 수정한다.")
-    public void updateProduct() {
+    void updateProduct() {
         // given
         ProductMapper createProductMapper = ProductMapper.builder()
                 .isSale(true)
@@ -258,7 +258,7 @@ public class ProductCommandServiceTests {
 
     @Test
     @DisplayName("Product Sub Aggregate에서 엔티티의 필드가 하나도 변경되지 않았다면, 수정하지 않는다.")
-    public void notUpdateProduct() {
+    void notUpdateProduct() {
         // given
         ProductMapper createProductMapper = ProductMapper.builder()
                 .isSale(true)

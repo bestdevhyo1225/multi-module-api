@@ -3,7 +3,6 @@ package com.hyoseok.api.request.product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Getter

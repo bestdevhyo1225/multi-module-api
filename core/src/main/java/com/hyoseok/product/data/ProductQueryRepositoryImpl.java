@@ -2,7 +2,6 @@ package com.hyoseok.product.data;
 
 import com.hyoseok.product.domain.Product;
 import com.hyoseok.product.domain.ProductQueryRepository;
-import com.hyoseok.product.domain.QProduct;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
