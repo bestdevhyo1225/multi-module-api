@@ -1,0 +1,130 @@
+plugins {
+	id 'org.springframework.boot' version '2.3.4.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
+	id 'java'
+}
+
+bootJar {
+	enabled = false
+}
+
+allprojects {
+	repositories {
+		mavenCentral()
+	}
+}
+
+subprojects {
+	group = 'com.hyoseok'
+	version = '0.0.1-SNAPSHOT'
+	sourceCompatibility = '11'
+
+	apply plugin: 'java'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'jacoco'
+
+	repositories {
+		mavenCentral()
+	}
+
+	configurations {
+		developmentOnly
+		runtimeClasspath {
+			extendsFrom developmentOnly
+		}
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
+	}
+
+	dependencies {
+		implementation 'org.springframework.boot:spring-boot-starter'
+		implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7'
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
+		testImplementation('org.springframework.boot:spring-boot-starter-test') {
+			exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+		}
+	}
+
+	test {
+		useJUnitPlatform()
+		finalizedBy 'jacocoTestReport'
+	}
+
+	jacocoTestReport {
+		reports {
+			html.enabled true
+			xml.enabled false
+			csv.enabled false
+		}
+
+		def Qdomains = []
+		for(qPattern in "**/QA" .. "**/QZ"){
+			Qdomains.add(qPattern+"*")
+		}
+
+		afterEvaluate {
+
+			classDirectories.setFrom(files(classDirectories.files.collect {
+				fileTree(dir: it,
+						exclude: [] + Qdomains)
+			}))
+		}
+
+		finalizedBy 'jacocoTestCoverageVerification'
+	}
+
+	jacocoTestCoverageVerification {
+		def Qdomains = []
+		for (qPattern in "*.QA".."*.QZ") {  // qPattern = "*.QA","*.QB","*.QC", ... "*.QZ"
+			Qdomains.add(qPattern + "*")
+		}
+
+		violationRules {
+			rule {
+				enabled = true
+				element = 'CLASS'
+
+				limit {
+					counter = 'BRANCH'
+					value = 'COVEREDRATIO'
+					minimum = 0.00 // 테스트 커버리지 추가할 것
+				}
+
+				limit {
+					counter = 'LINE'
+					value = 'COVEREDRATIO'
+					minimum = 0.00 // 테스트 커버리지 추가할 것
+				}
+
+				excludes = [] + Qdomains as List<String>
+			}
+		}
+	}
+
+	task testCoverage(type: Test) {
+		group 'verification'
+		description 'Runs the unit tests with coverage'
+
+		dependsOn(':test',
+				':jacocoTestReport',
+				':jacocoTestCoverageVerification')
+
+		tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
+		tasks['jacocoTestCoverageVerification'].mustRunAfter(tasks['jacocoTestReport'])
+	}
+}
+
+project(':external-api') {
+	dependencies {
+		compile project (':core')
+	}
+}
+
+project(':admin-api') {
+	dependencies {
+		compile project (':core')
+	}
+}
