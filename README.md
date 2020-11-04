@@ -8,9 +8,9 @@
 
 <br>
 
-## 실행 방법
+## admin-api 모듈
 
-- **필요한 자원들이 반드시 설치되어야 함 (JDK 11, Java 등등...)**
+- 필요한 자원들이 반드시 설치되어야 함 (JDK 11, Java 등등...)
 
 - Multi-Module 프로젝트이므로 `admin-api`와 `external-api` 모듈의 `application.yml` 설정이 다를 수 있음을 참고해야 함
 
@@ -39,8 +39,8 @@ java -Dspring.profiles.active=local \
 ./gradlew clean build
 
 # 2) 생성한 Jar를 파일을 Docker Image로 만든다.
-docker build -f dev.Dockerfile -t product:latest .
+docker build -f admin-api/dev.Dockerfile -t product-admin-api:latest .
 
 # 3) docker-compose 를 통해 Application과 MySQL 컨테이너를 실행한다.
-docker-compose -f docker-compose.dev.yml up
+docker-compose -f admin-api/docker-compose.dev.yml up
 ```
