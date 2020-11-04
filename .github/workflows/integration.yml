@@ -22,6 +22,20 @@ jobs:
           java-package: jdk
           architecture: x64
 
+      - name: Cache Gradle
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-gradle
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ env.cache-name }}-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-${{ env.cache-name }}-
+            ${{ runner.os }}-gradle-
+            ${{ runner.os }}-
+
       - name: Run Test
         run: |
           ./gradlew clean test
