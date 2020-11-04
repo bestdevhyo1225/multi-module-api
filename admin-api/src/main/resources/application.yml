@@ -1,0 +1,80 @@
+spring:
+  profiles:
+    active: local
+
+  jpa:
+    properties:
+      hibernate:
+        #        show_sql: true
+        format_sql: true
+        # In 쿼리가 1000개를 넘어가면, 오류가 발생하는 DB들이 있다.
+        # 100 ~ 1000 사이를 선택하는 것을 권장! DB에 순간 부하량이 증가하기 때문이다.
+        # 1000을 선택하는 것이 성능상 좋지만, 결국 DB든 애플리케이션이든 순간 부하를 어디까지 견딜 수 있는지로 결정하면 된다. (정답은 없음)
+        default_batch_fetch_size: 500
+    open-in-view: false
+
+server:
+  tomcat:
+    uri-encoding: UTF-8
+  port: 8080
+
+# local
+---
+spring:
+  profiles: local
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem://localhost/~/suwon
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+logging:
+  level:
+    web: debug
+    org.hibernate.SQL: debug
+#    org.hibernate.type: trace
+
+# dev -> application이랑 mysql를 동시에 띄우도록 설정해놨음
+# dev 환경 실행 -> 'docker-compose -f docker-compose.dev.yml up' 명령어
+---
+spring:
+  profiles: dev
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://host.docker.internal:9001/dev?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: example
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+logging:
+  level:
+    web: debug
+    org.hibernate.SQL: debug
+#    org.hibernate.type: trace
+
+# statge
+---
+spring:
+  profiles: stage
+
+logging:
+  level:
+    web: error
+
+# prod
+---
+spring:
+  profiles: prod
+
+logging:
+  level:
+    web: error
