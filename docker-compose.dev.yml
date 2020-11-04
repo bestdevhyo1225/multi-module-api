@@ -3,12 +3,10 @@ services:
   product:
     image: product:latest
     build:
-      context: .
+      context: dev.Dockerfile
     container_name: product
     ports:
     - '8080:8080'
-    environment:
-      SPRING_PROFILES_ACTIVE: dev
     tty: true
     links:
       - product-mysql
