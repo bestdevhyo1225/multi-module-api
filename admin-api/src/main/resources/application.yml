@@ -24,6 +24,7 @@ spring:
   profiles: local
 
   datasource:
+
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem://localhost/~/suwon
     username: sa
@@ -39,8 +40,7 @@ logging:
     org.hibernate.SQL: debug
 #    org.hibernate.type: trace
 
-# dev -> application이랑 mysql를 동시에 띄우도록 설정해놨음
-# dev 환경 실행 -> 'docker-compose -f docker-compose.dev.yml up' 명령어
+# dev -> application이랑 mysql를 동시에 띄우도록 설정해놨음 (README.md 참고)
 ---
 spring:
   profiles: dev
@@ -54,6 +54,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
 
 logging:
   level:
