@@ -8,15 +8,13 @@
 
 <br>
 
-## 실행 방법
+## admin-api 실행 방법
 
 - **필요한 자원들이 반드시 설치되어야 함 (JDK 11, Java 등등...)**
 
 - Multi-Module 프로젝트이므로 `admin-api`와 `external-api` 모듈의 `application.yml` 설정이 다를 수 있음을 참고해야 함
 
-### admin-api
-
-#### Local 환경 실행
+### Local 환경 실행
 
 > 인텔리제이 IDE가 아니라면, 아래의 방법으로 실행해야 한다.
 
@@ -32,7 +30,7 @@ java -Dspring.profiles.active=local \
 
 <br>
 
-#### Dev 환경 실행
+### Dev 환경 실행
 
 > Docker를 사용해서 Application, MySQL이 같이 실행되도록 구성했다.
 
