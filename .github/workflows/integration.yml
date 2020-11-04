@@ -24,7 +24,5 @@ jobs:
 
       - name: Run Test
         run: |
-          ./gradlew clean :core:test
-          ./gradlew clean :admin-api:test
-          ./gradlew clean :external-api:test
+          ./gradlew clean test
 
