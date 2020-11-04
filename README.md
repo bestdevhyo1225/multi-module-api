@@ -10,7 +10,7 @@
 
 ## admin-api 모듈
 
-- **필요한 자원들이 반드시 설치되어야 함 (JDK 11, Java 등등...)**
+- 필요한 자원들이 반드시 설치되어야 함 (JDK 11, Java 등등...)
 
 - Multi-Module 프로젝트이므로 `admin-api`와 `external-api` 모듈의 `application.yml` 설정이 다를 수 있음을 참고해야 함
 
