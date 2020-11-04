@@ -41,6 +41,7 @@ subprojects {
 	dependencies {
 		implementation 'org.springframework.boot:spring-boot-starter'
 		implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7'
+		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
 		testImplementation('org.springframework.boot:spring-boot-starter-test') {
@@ -68,8 +69,7 @@ subprojects {
 		afterEvaluate {
 
 			classDirectories.setFrom(files(classDirectories.files.collect {
-				fileTree(dir: it,
-						exclude: [] + Qdomains)
+				fileTree(dir: it, exclude: [] + Qdomains)
 			}))
 		}
 
