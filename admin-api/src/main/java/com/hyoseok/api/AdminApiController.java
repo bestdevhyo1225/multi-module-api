@@ -7,10 +7,7 @@ import com.hyoseok.api.response.product.FindProductsResponse;
 import com.hyoseok.api.response.product.FindProductResponse;
 import com.hyoseok.product.usecase.ProductCommandService;
 import com.hyoseok.product.usecase.ProductQueryService;
-import com.hyoseok.product.usecase.mapper.ProductDescriptionTextMapper;
-import com.hyoseok.product.usecase.mapper.ProductDescriptionVarcharMapper;
-import com.hyoseok.product.usecase.mapper.ProductImageMapper;
-import com.hyoseok.product.usecase.mapper.ProductMapper;
+import com.hyoseok.product.usecase.mapper.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -72,7 +69,7 @@ public class AdminApiController {
                 .notes(request.getProductDescriptionVarchar().getNotes())
                 .build();
 
-        ProductImageMapper productImageMapper = ProductImageMapper.builder()
+        CreateProductImageMapper productImageMapper = CreateProductImageMapper.builder()
                 .images(request.getImages())
                 .isUrls(request.getIsUrls())
                 .kinds(request.getKinds())
@@ -124,7 +121,7 @@ public class AdminApiController {
                 .notes(request.getProductDescriptionVarchar().getNotes())
                 .build();
 
-        ProductImageMapper productImageMapper = ProductImageMapper.builder()
+        UpdateProductImageMapper productImageMapper = UpdateProductImageMapper.builder()
                 .imageIds(request.getImageIds())
                 .images(request.getImages())
                 .isUrls(request.getIsUrls())
