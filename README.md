@@ -8,6 +8,18 @@
 
 <br>
 
+## 인텔리제이 IDE 사용한다면?
+
+> Preferences 에서 `Gradle` 검색후, `Build and run using`을 `Gradle` -> `IntelliJ IDEA`로 수정하고, `Run tests using`을 `Gradle` -> `IntelliJ IDEA`로 수정하기
+
+![image](https://user-images.githubusercontent.com/23515771/98190422-5516b000-1f5a-11eb-90c5-0b65bb8dcde2.png)
+
+> Preferences 에서 `Annotation Processors` 검색후, `Enable annotation processing` 체크하기
+
+![image](https://user-images.githubusercontent.com/23515771/98190727-ff8ed300-1f5a-11eb-961e-a9af336b0994.png)
+
+<br>
+
 ## admin-api 모듈
 
 - 필요한 자원들이 반드시 설치되어야 함 (JDK 11, Java 등등...)
