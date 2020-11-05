@@ -62,7 +62,7 @@ logging:
     org.hibernate.SQL: debug
 #    org.hibernate.type: trace
 
-# statge
+# stage
 ---
 spring:
   profiles: stage
