@@ -22,7 +22,7 @@ public class ProductCommandService {
     public Long createProduct(ProductMapper productMapper,
                               ProductDescriptionTextMapper productDescriptionTextMapper,
                               ProductDescriptionVarcharMapper productDescriptionVarcharMapper,
-                              ProductImageMapper productImageMapper) {
+                              CreateProductImageMapper productImageMapper) {
         Product product = createProduct(
                 productMapper,
                 createProductDescriptionText(productDescriptionTextMapper),
@@ -33,18 +33,6 @@ public class ProductCommandService {
         Product savedProduct = productRepository.save(product);
 
         return savedProduct.getId();
-    }
-
-    public void updateProduct(ProductMapper productMapper,
-                              ProductDescriptionTextMapper productDescriptionTextMapper,
-                              ProductDescriptionVarcharMapper productDescriptionVarcharMapper,
-                              ProductImageMapper productImageMapper) {
-        Product product = productQueryRepository.findWithFetchJoinById(productMapper.getId())
-                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
-
-        changeProduct(product, productMapper);
-        changeProductDescriptionText(product.getProductDescriptionText(), productDescriptionTextMapper);
-        changeProductDescriptionVarchars(product.getProductDescriptionVarchars(), productDescriptionVarcharMapper);
     }
 
     private ProductDescriptionText createProductDescriptionText(ProductDescriptionTextMapper mapper) {
@@ -60,7 +48,7 @@ public class ProductCommandService {
                 .collect(toList());
     }
 
-    private List<ProductImage> createProductImage(ProductImageMapper mapper) {
+    private List<ProductImage> createProductImage(CreateProductImageMapper mapper) {
         return mapper.getProductImageVOList().stream()
                 .map(productImageVO ->
                         ProductImage.create(
@@ -89,6 +77,18 @@ public class ProductCommandService {
                 productDescriptionVarchars,
                 productImages
         );
+    }
+
+    public void updateProduct(ProductMapper productMapper,
+                              ProductDescriptionTextMapper productDescriptionTextMapper,
+                              ProductDescriptionVarcharMapper productDescriptionVarcharMapper,
+                              UpdateProductImageMapper productImageMapper) {
+        Product product = productQueryRepository.findWithFetchJoinById(productMapper.getId())
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
+
+        changeProduct(product, productMapper);
+        changeProductDescriptionText(product.getProductDescriptionText(), productDescriptionTextMapper);
+        changeProductDescriptionVarchars(product.getProductDescriptionVarchars(), productDescriptionVarcharMapper);
     }
 
     private void changeProduct(Product product, ProductMapper mapper) {
