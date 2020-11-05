@@ -121,19 +121,10 @@ public class AdminApiController {
                 .notes(request.getProductDescriptionVarchar().getNotes())
                 .build();
 
-        UpdateProductImageMapper productImageMapper = UpdateProductImageMapper.builder()
-                .imageIds(request.getImageIds())
-                .images(request.getImages())
-                .isUrls(request.getIsUrls())
-                .kinds(request.getKinds())
-                .sortOrders(request.getSortOrders())
-                .build();
-
         productCommandService.updateProduct(
                 productMapper,
                 productDescriptionTextMapper,
-                productDescriptionVarcharMapper,
-                productImageMapper
+                productDescriptionVarcharMapper
         );
     }
 
