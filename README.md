@@ -36,7 +36,7 @@
 
 # 2) profiles.active를 local 상태로 두고, 실행하고자 하는 Jar 파일을 실행한다. (admin-api 또는 external-api)
 java -Dspring.profiles.active=local \
-      -Xms2048m -Xms2048m -XX:ParallelGCThreads=2 \
+      -Xms2048m -Xmx2048m -XX:ParallelGCThreads=2 \
       -jar admin-api/build/libs/admin-api-0.0.1-SNAPSHOT.jar 
 ```
 
