@@ -1,6 +1,5 @@
 package com.hyoseok.product.usecase.mapper;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
