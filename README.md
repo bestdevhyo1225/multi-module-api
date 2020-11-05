@@ -28,8 +28,6 @@ java -Dspring.profiles.active=local \
       -jar ./admin-api/build/libs/admin-api-0.0.1-SNAPSHOT.jar 
 ```
 
-<br>
-
 ### Dev 환경 실행
 
 > Docker를 사용해서 Application, MySQL이 같이 실행되도록 구성했다.
