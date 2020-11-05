@@ -3,6 +3,7 @@ package com.hyoseok.product.domain;
 import com.hyoseok.BaseTimeEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
@@ -12,6 +13,7 @@ import static lombok.AccessLevel.*;
 
 @Entity
 @Getter
+@DynamicUpdate
 @NoArgsConstructor(access = PROTECTED)
 public class ProductImage extends BaseTimeEntity {
 

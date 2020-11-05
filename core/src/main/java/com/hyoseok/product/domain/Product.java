@@ -3,6 +3,7 @@ package com.hyoseok.product.domain;
 import com.hyoseok.BaseEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import static lombok.AccessLevel.*;
 
 @Entity
 @Getter
+@DynamicUpdate
 @NoArgsConstructor(access = PROTECTED)
 public class Product extends BaseEntity {
 

@@ -81,8 +81,7 @@ public class ProductCommandService {
 
     public void updateProduct(ProductMapper productMapper,
                               ProductDescriptionTextMapper productDescriptionTextMapper,
-                              ProductDescriptionVarcharMapper productDescriptionVarcharMapper,
-                              UpdateProductImageMapper productImageMapper) {
+                              ProductDescriptionVarcharMapper productDescriptionVarcharMapper) {
         Product product = productQueryRepository.findWithFetchJoinById(productMapper.getId())
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
 
