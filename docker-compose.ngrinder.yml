@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+  controller:
+    container_name: ngrinder-controller
+    image: ngrinder/controller:latest
+    environment:
+      - TZ=Asia/Seoul
+    ports:
+      - "8880:80"
+      - "16001:16001"
+      - "12000-12009:12000-12009"
+    volumes:
+      - /tmp/ngrinder-controller:/opt/ngrinder-controller
+    sysctls:
+      - net.core.somaxconn=65000
+  agent-1:
+    container_name: ngrinder-agent-1
+    image: ngrinder/agent:latest
+    links:
+      - controller
+    environment:
+      - TZ=Asia/Seoul
+    sysctls:
+      - net.core.somaxconn=65000
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nproc:
+        soft: 1024000
+        hard: 1024000
+      nofile:
+        soft: 1024000
+        hard: 1024000
+  agent-2:
+    container_name: ngrinder-agent-2
+    image: ngrinder/agent:latest
+    links:
+      - controller
+    environment:
+      - TZ=Asia/Seoul
+    sysctls:
+      - net.core.somaxconn=65000
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nproc:
+        soft: 1024000
+        hard: 1024000
+      nofile:
+        soft: 1024000
+        hard: 1024000
