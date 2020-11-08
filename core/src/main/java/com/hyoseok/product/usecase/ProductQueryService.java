@@ -1,9 +1,12 @@
 package com.hyoseok.product.usecase;
 
-import com.hyoseok.product.data.ProductQueryRepositoryImpl;
 import com.hyoseok.product.domain.Product;
+import com.hyoseok.product.domain.ProductQueryRepository;
 import com.hyoseok.product.usecase.dto.ProductDetail;
+import com.hyoseok.product.usecase.dto.ProductPagination;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,7 +20,7 @@ import static java.util.stream.Collectors.*;
 @RequiredArgsConstructor
 public class ProductQueryService {
 
-    private final ProductQueryRepositoryImpl productQueryRepository;
+    private final ProductQueryRepository productQueryRepository;
 
     public List<ProductDetail> findProducts() {
         return productQueryRepository.findAllWithFetchJoin().stream()
@@ -30,6 +33,10 @@ public class ProductQueryService {
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
 
         return new ProductDetail(product);
+    }
+
+    public Page<ProductPagination> paginationProducts(boolean useSearchBtn, int pageNo, int pageSize) {
+        return productQueryRepository.paginationCountSearchBtn(useSearchBtn, PageRequest.of(pageNo - 1, pageSize));
     }
 
 }
