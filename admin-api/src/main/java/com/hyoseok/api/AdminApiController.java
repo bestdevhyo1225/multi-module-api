@@ -5,10 +5,13 @@ import com.hyoseok.api.request.product.UpdateProductRequest;
 import com.hyoseok.api.response.product.CreateProductResponse;
 import com.hyoseok.api.response.product.FindProductsResponse;
 import com.hyoseok.api.response.product.FindProductResponse;
+import com.hyoseok.api.response.product.ProductPaginationResponse;
 import com.hyoseok.product.usecase.ProductCommandService;
 import com.hyoseok.product.usecase.ProductQueryService;
+import com.hyoseok.product.usecase.dto.ProductPagination;
 import com.hyoseok.product.usecase.mapper.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +35,16 @@ public class AdminApiController {
     @ResponseStatus(HttpStatus.OK)
     public FindProductResponse findProduct(@PathVariable("id") Long id) {
         return new FindProductResponse(productQueryService.findProduct(id));
+    }
+
+    @GetMapping("pagination")
+    @ResponseStatus(HttpStatus.OK)
+    public ProductPaginationResponse paginationProducts(@RequestParam(value = "useSearchBtn") boolean useSearchBtn,
+                                                        @RequestParam(value = "pageNo", defaultValue = "1") int pageNo,
+                                                        @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        Page<ProductPagination> page = productQueryService.paginationProducts(useSearchBtn, pageNo, pageSize);
+
+        return new ProductPaginationResponse(pageNo, pageSize, page.getTotalPages(), page.getContent());
     }
 
     @PostMapping
