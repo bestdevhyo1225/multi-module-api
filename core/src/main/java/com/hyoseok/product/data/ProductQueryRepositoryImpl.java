@@ -56,7 +56,7 @@ public class ProductQueryRepositoryImpl extends QuerydslRepositorySupport implem
     }
 
     public Page<ProductPagination> paginationCount(Pageable pageable) {
-        JPQLQuery<ProductPagination> pagination = querydsl().applyPagination(pageable, getJpaQueryProductPaginationDto());
+        JPQLQuery<ProductPagination> pagination = querydsl().applyPagination(pageable, getJpaQueryProductPagination());
 
         List<ProductPagination> items = pagination.fetch(); // 데이터 조회
 
@@ -66,7 +66,7 @@ public class ProductQueryRepositoryImpl extends QuerydslRepositorySupport implem
     }
 
     public Page<ProductPagination> paginationCountSearchBtn(boolean useSearchBtn, Pageable pageable) {
-        JPAQuery<ProductPagination> query = getJpaQueryProductPaginationDto();
+        JPAQuery<ProductPagination> query = getJpaQueryProductPagination();
         JPQLQuery<ProductPagination> pagination = querydsl().applyPagination(pageable, query);
 
         // 검색 버튼 사용
@@ -83,7 +83,7 @@ public class ProductQueryRepositoryImpl extends QuerydslRepositorySupport implem
         return new PageImpl<>(querydsl().applyPagination(pageRequest, query).fetch(), pageRequest, totalCount);
     }
 
-    private JPAQuery<ProductPagination> getJpaQueryProductPaginationDto() {
+    private JPAQuery<ProductPagination> getJpaQueryProductPagination() {
         return queryFactory
                 .select(Projections.fields(ProductPagination.class,
                         product.id,
