@@ -55,6 +55,7 @@ public class ProductQueryRepositoryImpl extends QuerydslRepositorySupport implem
         return Optional.ofNullable(findProduct);
     }
 
+    @Override
     public Page<ProductPagination> paginationCount(Pageable pageable) {
         JPQLQuery<ProductPagination> pagination = querydsl().applyPagination(pageable, getJpaQueryProductPagination());
 
@@ -65,6 +66,7 @@ public class ProductQueryRepositoryImpl extends QuerydslRepositorySupport implem
         return new PageImpl<>(items, pageable, totalCount);
     }
 
+    @Override
     public Page<ProductPagination> paginationCountSearchBtn(boolean useSearchBtn, Pageable pageable) {
         JPAQuery<ProductPagination> query = getJpaQueryProductPagination();
         JPQLQuery<ProductPagination> pagination = querydsl().applyPagination(pageable, query);
