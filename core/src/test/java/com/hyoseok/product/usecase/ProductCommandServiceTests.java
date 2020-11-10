@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.util.HashMap;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -21,9 +19,6 @@ import static org.assertj.core.api.Assertions.*;
 @Transactional
 @DisplayName("ProductCommandService 테스트")
 class ProductCommandServiceTests {
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @Autowired
     private ProductCommandService productCommandService;
@@ -207,9 +202,7 @@ class ProductCommandServiceTests {
                 productDescVarcharMapper
         );
 
-        entityManager.flush();
-        entityManager.clear();
-
+        // JPQL을 호출하면, 자동으로 flush 됨
         Product findProduct = productQueryRepository.findWithFetchJoinById(productId)
                 .orElseThrow(() -> new NoSuchElementException(""));
 
@@ -325,9 +318,6 @@ class ProductCommandServiceTests {
                 productDescTextMapper,
                 productDescVarcharMapper
         );
-
-        entityManager.flush();
-        entityManager.clear();
 
         Product findProduct = productQueryRepository.findWithFetchJoinById(productId)
                 .orElseThrow(() -> new NoSuchElementException(""));
