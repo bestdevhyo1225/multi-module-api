@@ -5,8 +5,6 @@ spring:
   jpa:
     properties:
       hibernate:
-        #        show_sql: true
-        format_sql: true
         # In 쿼리가 1000개를 넘어가면, 오류가 발생하는 DB들이 있다.
         # 100 ~ 1000 사이를 선택하는 것을 권장! DB에 순간 부하량이 증가하기 때문이다.
         # 1000을 선택하는 것이 성능상 좋지만, 결국 DB든 애플리케이션이든 순간 부하를 어디까지 견딜 수 있는지로 결정하면 된다. (정답은 없음)
@@ -24,7 +22,6 @@ spring:
   profiles: local
 
   datasource:
-
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem://localhost/~/suwon
     username: sa
@@ -33,6 +30,10 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+    properties:
+      hibernate:
+        # show_sql: true
+        format_sql: true
 
 logging:
   level:
@@ -55,6 +56,10 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
+    properties:
+      hibernate:
+        # show_sql: true
+        format_sql: true
 
 logging:
   level:
