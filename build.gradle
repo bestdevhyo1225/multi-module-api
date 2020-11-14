@@ -129,3 +129,9 @@ project(':admin-api') {
 		compile project (':core')
 	}
 }
+
+project(':batch') {
+	dependencies {
+		compile project (':core')
+	}
+}
