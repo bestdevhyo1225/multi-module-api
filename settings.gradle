@@ -3,4 +3,5 @@ rootProject.name = 'product'
 include 'core'
 include 'external-api'
 include 'admin-api'
+include 'batch'
 
