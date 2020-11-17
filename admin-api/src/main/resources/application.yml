@@ -48,7 +48,7 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:9001/dev?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://host.docker.internal:9001/dev?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: example
     hikari:
