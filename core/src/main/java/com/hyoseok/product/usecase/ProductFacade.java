@@ -9,8 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
-public class ProductManager {
+public class ProductFacade {
 
     private final ProductQueryService productQueryService;
     private final ProductCommandService productCommandService;
@@ -18,10 +19,10 @@ public class ProductManager {
     public void update(ProductMapper productMapper,
                        ProductDescriptionTextMapper productDescriptionTextMapper,
                        ProductDescriptionVarcharMapper productDescriptionVarcharMapper) {
-        Product product = productQueryService.findPureProduct(productMapper.getId());
+        Product findProduct = productQueryService.findPureProduct(productMapper.getId());
 
         productCommandService.updateProductV2(
-                product, productMapper, productDescriptionTextMapper, productDescriptionVarcharMapper
+                findProduct, productMapper, productDescriptionTextMapper, productDescriptionVarcharMapper
         );
     }
 
