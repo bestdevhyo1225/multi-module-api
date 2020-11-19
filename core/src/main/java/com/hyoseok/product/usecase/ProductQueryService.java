@@ -35,6 +35,11 @@ public class ProductQueryService {
         return new ProductDetail(product);
     }
 
+    public Product findPureProduct(Long id) {
+        return productQueryRepository.findWithFetchJoinById(id)
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
+    }
+
     public Page<ProductPagination> paginationProducts(boolean useSearchBtn, int pageNo, int pageSize) {
         return productQueryRepository.paginationCountSearchBtn(useSearchBtn, PageRequest.of(pageNo - 1, pageSize));
     }

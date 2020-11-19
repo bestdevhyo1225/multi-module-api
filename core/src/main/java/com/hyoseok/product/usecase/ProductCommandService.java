@@ -90,6 +90,15 @@ public class ProductCommandService {
         changeProductDescriptionVarchars(product.getProductDescriptionVarchars(), productDescriptionVarcharMapper);
     }
 
+    public void updateProductV2(Product findProduct,
+                                ProductMapper productMapper,
+                                ProductDescriptionTextMapper productDescriptionTextMapper,
+                                ProductDescriptionVarcharMapper productDescriptionVarcharMapper) {
+        changeProduct(findProduct, productMapper);
+        changeProductDescriptionText(findProduct.getProductDescriptionText(), productDescriptionTextMapper);
+        changeProductDescriptionVarchars(findProduct.getProductDescriptionVarchars(), productDescriptionVarcharMapper);
+    }
+
     private void changeProduct(Product product, ProductMapper mapper) {
         product.change(
                 mapper.getIsSale(),
