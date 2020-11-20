@@ -21,7 +21,7 @@ public class ProductFacade {
                        ProductDescriptionVarcharMapper productDescriptionVarcharMapper) {
         Product findProduct = productQueryService.findPureProduct(productMapper.getId());
 
-        productCommandService.updateProductV2(
+        productCommandService.updateV2(
                 findProduct, productMapper, productDescriptionTextMapper, productDescriptionVarcharMapper
         );
     }

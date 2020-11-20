@@ -78,7 +78,7 @@ class ProductFacadeTest {
                 .sortOrders(List.of(0, 1))
                 .build();
 
-        Long productId = productCommandService.createProduct(
+        Long productId = productCommandService.create(
                 createProductMapper,
                 createProductDescTextMapper,
                 createProductDescVarcharMapper,

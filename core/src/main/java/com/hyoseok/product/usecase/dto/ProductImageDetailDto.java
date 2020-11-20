@@ -6,14 +6,14 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class ProductImageDetail {
+public class ProductImageDetailDto {
     private Long id;
     private boolean isUrl;
     private String kind;
     private String image;
     private int sortOrder;
 
-    public ProductImageDetail(ProductImage productImage) {
+    public ProductImageDetailDto(ProductImage productImage) {
         this.id = productImage.getId();
         this.isUrl = productImage.getIsUrl();
         this.kind = productImage.getKind();
