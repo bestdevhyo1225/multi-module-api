@@ -42,6 +42,8 @@ subprojects {
 		implementation 'org.springframework.boot:spring-boot-starter'
 		implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.7'
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+		implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+		compile group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
 		runtimeOnly 'mysql:mysql-connector-java'
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
