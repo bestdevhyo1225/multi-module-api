@@ -13,8 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.stream.Collectors.toList;
+
 @Getter
-@RedisHash("product")
+@RedisHash(value = "product", timeToLive = 60 * 60) // timeToLive는 seconds
 public class RedisProduct implements Serializable {
 
     @Id
@@ -28,14 +30,22 @@ public class RedisProduct implements Serializable {
     private int maximum;
     private int minimum;
     private LocalDateTime refreshDatetime;
-    private Map<String, String> productDescriptionText = new HashMap<>();
-    private Map<String, String> productDescriptionVarchar = new HashMap<>();
+    private final Map<String, String> productDescriptionText = new HashMap<>();
+    private final Map<String, String> productDescriptionVarchar = new HashMap<>();
     private List<ProductImageDetail> productImages = new ArrayList<>();
 
     @Builder
-    public RedisProduct(String id, Boolean isSale, Boolean isUsed, int supplierId,
-                        double supplyPrice, double recommendPrice, double consumerPrice,
-                        int maximum, int minimum, LocalDateTime refreshDatetime) {
+    public RedisProduct(String id,
+                        Boolean isSale,
+                        Boolean isUsed,
+                        int supplierId,
+                        double supplyPrice,
+                        double recommendPrice,
+                        double consumerPrice,
+                        int maximum,
+                        int minimum,
+                        LocalDateTime refreshDatetime) {
+
         this.id = id;
         this.isSale = isSale;
         this.isUsed = isUsed;
@@ -48,20 +58,27 @@ public class RedisProduct implements Serializable {
         this.refreshDatetime = refreshDatetime;
     }
 
-    public void refresh(Product product, LocalDateTime refreshDatetime) {
-        // 저장된 데이터보다 최신 데이터일 경우
-        if (refreshDatetime.isAfter(this.refreshDatetime)) {
-            this.id = product.getId().toString();
-            this.isSale = product.getIsSale();
-            this.isUsed = product.getIsUsed();
-            this.supplierId = product.getSupplierId();
-            this.supplyPrice = product.getSupplyPrice();
-            this.recommendPrice = product.getRecommendPrice();
-            this.consumerPrice = product.getConsumerPrice();
-            this.maximum = product.getMaximum();
-            this.minimum = product.getMinimum();
-            this.refreshDatetime = refreshDatetime;
-        }
+    public void refresh(Boolean isSale,
+                        Boolean isUsed,
+                        int supplierId,
+                        double supplyPrice,
+                        double recommendPrice,
+                        double consumerPrice,
+                        int maximum,
+                        int minimum,
+                        LocalDateTime refreshDatetime) {
+        // 최신 데이터가 저장된 데이터보다 빠르면 그냥 리턴
+        if (refreshDatetime.isBefore(this.refreshDatetime)) return;
+
+        this.isSale = isSale;
+        this.isUsed = isUsed;
+        this.supplierId = supplierId;
+        this.supplyPrice = supplyPrice;
+        this.recommendPrice = recommendPrice;
+        this.consumerPrice = consumerPrice;
+        this.maximum = maximum;
+        this.minimum = minimum;
+        this.refreshDatetime = refreshDatetime;
     }
 
 }
