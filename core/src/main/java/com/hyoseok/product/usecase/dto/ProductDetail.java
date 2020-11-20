@@ -1,9 +1,11 @@
 package com.hyoseok.product.usecase.dto;
 
-import com.hyoseok.product.domain.Product;
+import com.hyoseok.product.domain.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,29 +26,41 @@ public class ProductDetail {
     private int minimum;
     private final Map<String, String> productDescriptionText = new HashMap<>();
     private final Map<String, String> productDescriptionVarchar = new HashMap<>();
-    private List<ProductImageDetail> productImages;
+    private List<ProductImageDetail> productImages = new ArrayList<>();
 
-    public ProductDetail(Product product) {
-        this.id = product.getId();
-        this.isSale = product.getIsSale();
-        this.isUsed = product.getIsSale();
-        this.supplierId = product.getSupplierId();
-        this.supplyPrice = product.getSupplyPrice();
-        this.recommendPrice = product.getRecommendPrice();
-        this.consumerPrice = product.getConsumerPrice();
-        this.maximum = product.getMaximum();
-        this.minimum = product.getMinimum();
+    @Builder
+    public ProductDetail(Long id, Boolean isSale, Boolean isUsed, int supplierId, double supplyPrice,
+                         double recommendPrice, double consumerPrice, int maximum, int minimum,
+                         ProductDescriptionText productDescriptionText,
+                         List<ProductDescriptionVarchar> productDescriptionVarchars,
+                         List<ProductImage> productImages) {
+        this.id = id;
+        this.isSale = isSale;
+        this.isUsed = isUsed;
+        this.supplierId = supplierId;
+        this.supplyPrice = supplyPrice;
+        this.recommendPrice = recommendPrice;
+        this.consumerPrice = consumerPrice;
+        this.maximum = maximum;
+        this.minimum = minimum;
 
-        this.productDescriptionText.put(
-                product.getProductDescriptionText().getKey(), product.getProductDescriptionText().getValue()
-        );
+        if (productDescriptionText != null) {
+            this.productDescriptionText.put(
+                    productDescriptionText.getKey(), productDescriptionText.getValue()
+            );
+        }
 
-        product.getProductDescriptionVarchars().forEach(descriptionVarchar ->
-                this.productDescriptionVarchar.put(descriptionVarchar.getKey(), descriptionVarchar.getValue())
-        );
+        if (productDescriptionVarchars != null) {
+            productDescriptionVarchars.forEach(descriptionVarchar ->
+                    this.productDescriptionVarchar.put(descriptionVarchar.getKey(), descriptionVarchar.getValue())
+            );
+        }
 
-        this.productImages = product.getProductImages().stream()
-                .map(ProductImageDetail::new)
-                .collect(toList());
+        if (productImages != null) {
+            this.productImages = productImages.stream()
+                    .map(ProductImageDetail::new)
+                    .collect(toList());
+        }
     }
+
 }
