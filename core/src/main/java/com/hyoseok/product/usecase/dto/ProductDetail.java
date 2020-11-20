@@ -29,8 +29,15 @@ public class ProductDetail {
     private List<ProductImageDetail> productImages = new ArrayList<>();
 
     @Builder
-    public ProductDetail(Long id, Boolean isSale, Boolean isUsed, int supplierId, double supplyPrice,
-                         double recommendPrice, double consumerPrice, int maximum, int minimum,
+    public ProductDetail(Long id,
+                         Boolean isSale,
+                         Boolean isUsed,
+                         int supplierId,
+                         double supplyPrice,
+                         double recommendPrice,
+                         double consumerPrice,
+                         int maximum,
+                         int minimum,
                          ProductDescriptionText productDescriptionText,
                          List<ProductDescriptionVarchar> productDescriptionVarchars,
                          List<ProductImage> productImages) {

@@ -59,24 +59,23 @@ public class ProductQueryService {
                     .build();
         }
 
-
         Product product = productQueryRepository.findWithFetchJoinById(id)
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
 
-        RedisProduct redisProduct = RedisProduct.builder()
-                .id(product.getId().toString())
-                .isSale(product.getIsSale())
-                .isUsed(product.getIsUsed())
-                .supplierId(product.getSupplierId())
-                .supplyPrice(product.getSupplyPrice())
-                .recommendPrice(product.getRecommendPrice())
-                .consumerPrice(product.getConsumerPrice())
-                .maximum(product.getMaximum())
-                .minimum(product.getMinimum())
-                .refreshDatetime(LocalDateTime.now())
-                .build();
-
-        productRedisRepository.save(redisProduct);
+        productRedisRepository.save(
+                RedisProduct.builder()
+                        .id(product.getId().toString())
+                        .isSale(product.getIsSale())
+                        .isUsed(product.getIsUsed())
+                        .supplierId(product.getSupplierId())
+                        .supplyPrice(product.getSupplyPrice())
+                        .recommendPrice(product.getRecommendPrice())
+                        .consumerPrice(product.getConsumerPrice())
+                        .maximum(product.getMaximum())
+                        .minimum(product.getMinimum())
+                        .refreshDatetime(LocalDateTime.now())
+                        .build()
+        );
 
         return ProductDetail.builder()
                 .id(product.getId())
