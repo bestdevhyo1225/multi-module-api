@@ -19,6 +19,10 @@ spring:
         default_batch_fetch_size: 100
     open-in-view: false
 
+  redis:
+    host: localhost
+    port: 6379
+
 logging.level:
   org.hibernate.SQL: debug
 # org.hibernate.type: trace

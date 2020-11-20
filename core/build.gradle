@@ -14,6 +14,7 @@ dependencies {
     implementation 'com.querydsl:querydsl-jpa'
     implementation 'com.querydsl:querydsl-apt'
     runtimeOnly 'com.h2database:h2'
+    compile group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
 }
 
 //querydsl 추가 시작
