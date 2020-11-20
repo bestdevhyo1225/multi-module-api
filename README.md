@@ -2,6 +2,7 @@
 
 - Spring boot 2.3.4
 - Spring Data JPA
+- Spring Data Redis (Lettuce)
 - Querydsl
 - Test with Jacoco
 - Multi-Module Project
