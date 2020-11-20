@@ -91,7 +91,7 @@ public class AdminApiController {
                 .sortOrders(request.getSortOrders())
                 .build();
 
-        Long productId = productCommandService.createProduct(
+        Long productId = productCommandService.create(
                 productMapper,
                 productDescriptionTextMapper,
                 productDescriptionVarcharMapper,
@@ -136,7 +136,7 @@ public class AdminApiController {
                 .notes(request.getProductDescriptionVarchar().getNotes())
                 .build();
 
-        productCommandService.updateProduct(
+        productCommandService.update(
                 productMapper,
                 productDescriptionTextMapper,
                 productDescriptionVarcharMapper

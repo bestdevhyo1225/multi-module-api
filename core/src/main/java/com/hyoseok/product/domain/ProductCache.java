@@ -1,8 +1,6 @@
 package com.hyoseok.product.domain;
 
-import com.hyoseok.product.usecase.dto.ProductDetail;
-import com.hyoseok.product.usecase.dto.ProductImageDetail;
-import lombok.Builder;
+import com.hyoseok.product.usecase.dto.ProductImageDetailDto;
 import lombok.Getter;
 import org.springframework.data.redis.core.RedisHash;
 
@@ -14,11 +12,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.stream.Collectors.toList;
-
 @Getter
 @RedisHash(value = "product", timeToLive = 60 * 60) // timeToLive는 seconds
-public class RedisProduct implements Serializable {
+public class ProductCache implements Serializable {
 
     @Id
     private String id;
@@ -33,66 +29,38 @@ public class RedisProduct implements Serializable {
     private LocalDateTime refreshDatetime;
     private Map<String, String> productDescriptionText;
     private Map<String, String> productDescriptionVarchar;
-    private List<ProductImageDetail> productImages;
+    private List<ProductImageDetailDto> productImages;
 
-    public static RedisProduct createRedisProduct(ProductDetail productDetail, LocalDateTime refreshDatetime) {
-        RedisProduct redisProduct = new RedisProduct();
+    public static ProductCache create(String id,
+                                      Boolean isSale,
+                                      Boolean isUsed,
+                                      int supplierId,
+                                      double supplyPrice,
+                                      double recommendPrice,
+                                      double consumerPrice,
+                                      int maximum,
+                                      int minimum,
+                                      Map<String, String> productDescriptionText,
+                                      Map<String, String> productDescriptionVarchar,
+                                      List<ProductImageDetailDto> productImages,
+                                      LocalDateTime refreshDatetime) {
+        ProductCache productCache = new ProductCache();
 
-        redisProduct.id = productDetail.getId().toString();
-        redisProduct.isSale = productDetail.getIsSale();
-        redisProduct.isUsed = productDetail.getIsUsed();
-        redisProduct.supplierId = productDetail.getSupplierId();
-        redisProduct.supplyPrice = productDetail.getSupplyPrice();
-        redisProduct.recommendPrice = productDetail.getRecommendPrice();
-        redisProduct.consumerPrice = productDetail.getConsumerPrice();
-        redisProduct.maximum = productDetail.getMaximum();
-        redisProduct.minimum = productDetail.getMinimum();
+        productCache.id = id;
+        productCache.isSale = isSale;
+        productCache.isUsed = isUsed;
+        productCache.supplierId = supplierId;
+        productCache.supplyPrice = supplyPrice;
+        productCache.recommendPrice = recommendPrice;
+        productCache.consumerPrice = consumerPrice;
+        productCache.maximum = maximum;
+        productCache.minimum = minimum;
+        productCache.productDescriptionText = productDescriptionText != null ? productDescriptionText : new HashMap<>();
+        productCache.productDescriptionVarchar = productDescriptionVarchar != null ? productDescriptionVarchar : new HashMap<>();
+        productCache.productImages = productImages != null ? productImages : new ArrayList<>();
+        productCache.refreshDatetime = refreshDatetime;
 
-        redisProduct.productDescriptionText = productDetail.getProductDescriptionText() != null
-                ? productDetail.getProductDescriptionText()
-                : new HashMap<>();
-
-        redisProduct.productDescriptionVarchar = productDetail.getProductDescriptionVarchar() != null
-                ? productDetail.getProductDescriptionVarchar()
-                : new HashMap<>();
-
-        redisProduct.productImages = productDetail.getProductImages() != null
-                ? productDetail.getProductImages()
-                : new ArrayList<>();
-
-        redisProduct.refreshDatetime = refreshDatetime;
-
-        return redisProduct;
+        return productCache;
     }
-
-//    public void refresh(String id,
-//                        Boolean isSale,
-//                        Boolean isUsed,
-//                        int supplierId,
-//                        double supplyPrice,
-//                        double recommendPrice,
-//                        double consumerPrice,
-//                        int maximum,
-//                        int minimum,
-//                        LocalDateTime refreshDatetime,
-//                        Map<String, String> productDescriptionText,
-//                        Map<String, String> productDescriptionVarchar,
-//                        List<ProductImageDetail> productImages) {
-//        // 최신 데이터가 저장된 데이터보다 빠르면 그냥 리턴
-//        if (refreshDatetime.isBefore(this.refreshDatetime)) return;
-//
-//        this.isSale = isSale;
-//        this.isUsed = isUsed;
-//        this.supplierId = supplierId;
-//        this.supplyPrice = supplyPrice;
-//        this.recommendPrice = recommendPrice;
-//        this.consumerPrice = consumerPrice;
-//        this.maximum = maximum;
-//        this.minimum = minimum;
-//        this.refreshDatetime = refreshDatetime;
-//        this.productDescriptionText = productDescriptionText != null ? productDescriptionText : new HashMap<>();
-//        this.productDescriptionVarchar = productDescriptionVarchar != null ? productDescriptionVarchar : new HashMap<>();
-//        this.productImages = productImages != null ? productImages : new ArrayList<>();
-//    }
 
 }

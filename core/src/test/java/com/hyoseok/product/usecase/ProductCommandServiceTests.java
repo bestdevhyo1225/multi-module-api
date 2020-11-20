@@ -69,7 +69,7 @@ class ProductCommandServiceTests {
                 .build();
 
         // when
-        Long productId = productCommandService.createProduct(
+        Long productId = productCommandService.create(
                 productMapper,
                 productDescTextMapper,
                 productDescVarcharMapper,
@@ -156,7 +156,7 @@ class ProductCommandServiceTests {
                 .sortOrders(List.of(0, 1))
                 .build();
 
-        Long productId = productCommandService.createProduct(
+        Long productId = productCommandService.create(
                 createProductMapper,
                 createProductDescTextMapper,
                 createProductDescVarcharMapper,
@@ -196,7 +196,7 @@ class ProductCommandServiceTests {
                 .notes(List.of("note"))
                 .build();
 
-        productCommandService.updateProduct(
+        productCommandService.update(
                 productMapper,
                 productDescTextMapper,
                 productDescVarcharMapper
@@ -273,7 +273,7 @@ class ProductCommandServiceTests {
                 .sortOrders(List.of(0, 1))
                 .build();
 
-        Long productId = productCommandService.createProduct(
+        Long productId = productCommandService.create(
                 createProductMapper,
                 createProductDescTextMapper,
                 createProductDescVarcharMapper,
@@ -313,7 +313,7 @@ class ProductCommandServiceTests {
                 .notes(List.of("note"))
                 .build();
 
-        productCommandService.updateProduct(
+        productCommandService.update(
                 productMapper,
                 productDescTextMapper,
                 productDescVarcharMapper
