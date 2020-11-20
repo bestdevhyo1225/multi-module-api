@@ -19,7 +19,7 @@ public class ProductCommandService {
     private final ProductRepository productRepository;
     private final ProductQueryRepository productQueryRepository;
 
-    public Long createProduct(ProductMapper productMapper,
+    public Long create(ProductMapper productMapper,
                               ProductDescriptionTextMapper productDescriptionTextMapper,
                               ProductDescriptionVarcharMapper productDescriptionVarcharMapper,
                               CreateProductImageMapper productImageMapper) {
@@ -79,7 +79,7 @@ public class ProductCommandService {
         );
     }
 
-    public void updateProduct(ProductMapper productMapper,
+    public void update(ProductMapper productMapper,
                               ProductDescriptionTextMapper productDescriptionTextMapper,
                               ProductDescriptionVarcharMapper productDescriptionVarcharMapper) {
         Product product = productQueryRepository.findWithFetchJoinById(productMapper.getId())
@@ -90,7 +90,7 @@ public class ProductCommandService {
         changeProductDescriptionVarchars(product.getProductDescriptionVarchars(), productDescriptionVarcharMapper);
     }
 
-    public void updateProductV2(Product findProduct,
+    public void updateV2(Product findProduct,
                                 ProductMapper productMapper,
                                 ProductDescriptionTextMapper productDescriptionTextMapper,
                                 ProductDescriptionVarcharMapper productDescriptionVarcharMapper) {

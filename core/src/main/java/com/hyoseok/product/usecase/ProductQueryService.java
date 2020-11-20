@@ -1,7 +1,7 @@
 package com.hyoseok.product.usecase;
 
 import com.hyoseok.product.domain.*;
-import com.hyoseok.product.usecase.dto.ProductDetail;
+import com.hyoseok.product.usecase.dto.ProductDetailDto;
 import com.hyoseok.product.usecase.dto.ProductPagination;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -23,74 +23,82 @@ public class ProductQueryService {
     private final ProductQueryRepository productQueryRepository;
     private final ProductRedisRepository productRedisRepository;
 
-    public List<ProductDetail> findProducts() {
+    public List<ProductDetailDto> findProducts() {
         return productQueryRepository.findAllWithFetchJoin().stream()
-                .map((product) -> ProductDetail.builder()
-                        .id(product.getId())
-                        .isSale(product.getIsSale())
-                        .isUsed(product.getIsUsed())
-                        .supplierId(product.getSupplierId())
-                        .supplyPrice(product.getSupplyPrice())
-                        .recommendPrice(product.getRecommendPrice())
-                        .consumerPrice(product.getConsumerPrice())
-                        .maximum(product.getMaximum())
-                        .minimum(product.getMinimum())
-                        .productDescriptionText(product.getProductDescriptionText())
-                        .productDescriptionVarchars(product.getProductDescriptionVarchars())
-                        .productImages(product.getProductImages())
-                        .build())
+                .map(product -> ProductDetailDto.createProductDetail(
+                        product.getId(),
+                        product.getIsSale(),
+                        product.getIsUsed(),
+                        product.getSupplierId(),
+                        product.getSupplyPrice(),
+                        product.getRecommendPrice(),
+                        product.getConsumerPrice(),
+                        product.getMaximum(),
+                        product.getMinimum(),
+                        product.getProductDescriptionText(),
+                        product.getProductDescriptionVarchars(),
+                        product.getProductImages()
+                ))
                 .collect(toList());
     }
 
-    public ProductDetail findProduct(Long id) {
-        RedisProduct findRedisProduct = productRedisRepository.findById(id.toString()).orElse(null);
+    public ProductDetailDto findProduct(Long id) {
+        ProductCache productCache = productRedisRepository.findById(id.toString()).orElse(null);
 
-        if (findRedisProduct != null) {
-            return ProductDetail.builder()
-                    .id(Long.parseLong(findRedisProduct.getId()))
-                    .isSale(findRedisProduct.getIsSale())
-                    .isUsed(findRedisProduct.getIsUsed())
-                    .supplierId(findRedisProduct.getSupplierId())
-                    .supplyPrice(findRedisProduct.getSupplyPrice())
-                    .recommendPrice(findRedisProduct.getRecommendPrice())
-                    .consumerPrice(findRedisProduct.getConsumerPrice())
-                    .maximum(findRedisProduct.getMaximum())
-                    .minimum(findRedisProduct.getMinimum())
-                    .build();
+        if (productCache != null) {
+            return ProductDetailDto.createProductDetailFromProductCache(
+                    productCache.getId(),
+                    productCache.getIsSale(),
+                    productCache.getIsUsed(),
+                    productCache.getSupplierId(),
+                    productCache.getSupplyPrice(),
+                    productCache.getRecommendPrice(),
+                    productCache.getConsumerPrice(),
+                    productCache.getMaximum(),
+                    productCache.getMinimum(),
+                    productCache.getProductDescriptionText(),
+                    productCache.getProductDescriptionVarchar(),
+                    productCache.getProductImages()
+            );
         }
 
         Product product = productQueryRepository.findWithFetchJoinById(id)
                 .orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
 
-        productRedisRepository.save(
-                RedisProduct.builder()
-                        .id(product.getId().toString())
-                        .isSale(product.getIsSale())
-                        .isUsed(product.getIsUsed())
-                        .supplierId(product.getSupplierId())
-                        .supplyPrice(product.getSupplyPrice())
-                        .recommendPrice(product.getRecommendPrice())
-                        .consumerPrice(product.getConsumerPrice())
-                        .maximum(product.getMaximum())
-                        .minimum(product.getMinimum())
-                        .refreshDatetime(LocalDateTime.now())
-                        .build()
+        ProductDetailDto productDetailDto = ProductDetailDto.createProductDetail(
+                product.getId(),
+                product.getIsSale(),
+                product.getIsUsed(),
+                product.getSupplierId(),
+                product.getSupplyPrice(),
+                product.getRecommendPrice(),
+                product.getConsumerPrice(),
+                product.getMaximum(),
+                product.getMinimum(),
+                product.getProductDescriptionText(),
+                product.getProductDescriptionVarchars(),
+                product.getProductImages()
         );
 
-        return ProductDetail.builder()
-                .id(product.getId())
-                .isSale(product.getIsSale())
-                .isUsed(product.getIsUsed())
-                .supplierId(product.getSupplierId())
-                .supplyPrice(product.getSupplyPrice())
-                .recommendPrice(product.getRecommendPrice())
-                .consumerPrice(product.getConsumerPrice())
-                .maximum(product.getMaximum())
-                .minimum(product.getMinimum())
-                .productDescriptionText(product.getProductDescriptionText())
-                .productDescriptionVarchars(product.getProductDescriptionVarchars())
-                .productImages(product.getProductImages())
-                .build();
+        productRedisRepository.save(
+                ProductCache.create(
+                        productDetailDto.getId().toString(),
+                        productDetailDto.getIsSale(),
+                        productDetailDto.getIsUsed(),
+                        productDetailDto.getSupplierId(),
+                        productDetailDto.getSupplyPrice(),
+                        productDetailDto.getRecommendPrice(),
+                        productDetailDto.getConsumerPrice(),
+                        productDetailDto.getMaximum(),
+                        productDetailDto.getMinimum(),
+                        productDetailDto.getProductDescriptionText(),
+                        productDetailDto.getProductDescriptionVarchar(),
+                        productDetailDto.getProductImages(),
+                        LocalDateTime.now()
+                )
+        );
+
+        return productDetailDto;
     }
 
     public Product findPureProduct(Long id) {
