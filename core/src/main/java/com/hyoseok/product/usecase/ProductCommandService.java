@@ -91,8 +91,9 @@ public class ProductCommandService {
         changeProductDescriptionText(product.getProductDescriptionText(), productDescriptionTextMapper);
         changeProductDescriptionVarchars(product.getProductDescriptionVarchars(), productDescriptionVarcharMapper);
 
-        ProductCache productCache = productRedisRepository.findById(product.getId().toString())
-                .orElseThrow(() -> new NoSuchElementException("Redis에 존재하지 않는 상품입니다."));
+        ProductCache productCache = productRedisRepository.findById(product.getId().toString()).orElse(null);
+
+        if (productCache == null) return;
 
         productCache.refresh(
                 product.getIsSale(),
