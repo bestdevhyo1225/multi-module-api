@@ -55,12 +55,55 @@ public class ProductCache implements Serializable {
         productCache.consumerPrice = consumerPrice;
         productCache.maximum = maximum;
         productCache.minimum = minimum;
+        productCache.refreshDatetime = refreshDatetime;
         productCache.productDescriptionText = productDescriptionText != null ? productDescriptionText : new HashMap<>();
         productCache.productDescriptionVarchar = productDescriptionVarchar != null ? productDescriptionVarchar : new HashMap<>();
         productCache.productImages = productImages != null ? productImages : new ArrayList<>();
-        productCache.refreshDatetime = refreshDatetime;
 
         return productCache;
+    }
+
+    public void refresh(Boolean isSale,
+                        Boolean isUsed,
+                        int supplierId,
+                        double supplyPrice,
+                        double recommendPrice,
+                        double consumerPrice,
+                        int maximum,
+                        int minimum,
+                        ProductDescriptionText productDescriptionText,
+                        List<ProductDescriptionVarchar> productDescriptionVarchars,
+                        List<ProductImage> productImages,
+                        LocalDateTime refreshDatetime) {
+        if (refreshDatetime.isBefore(this.refreshDatetime)) return;
+
+        this.isSale = isSale;
+        this.isUsed = isUsed;
+        this.supplierId = supplierId;
+        this.supplyPrice = supplyPrice;
+        this.recommendPrice = recommendPrice;
+        this.consumerPrice = consumerPrice;
+        this.maximum = maximum;
+        this.minimum = minimum;
+        this.refreshDatetime = refreshDatetime;
+
+        this.productDescriptionText.clear();
+        this.productDescriptionVarchar.clear();
+        this.productImages.clear();
+
+        if (productDescriptionText != null) {
+            this.productDescriptionText.put(productDescriptionText.getKey(), productDescriptionText.getValue());
+        }
+
+        if (productDescriptionVarchars != null) {
+            productDescriptionVarchars.forEach(descriptionVarchar ->
+                    this.productDescriptionVarchar.put(descriptionVarchar.getKey(), descriptionVarchar.getValue())
+            );
+        }
+
+        if (productImages != null) {
+            productImages.forEach(productImage -> this.productImages.add(new ProductImageDetailDto(productImage)));
+        }
     }
 
 }

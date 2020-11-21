@@ -53,9 +53,7 @@ public class ProductDetailDto {
         productDetailDto.productImages = new ArrayList<>();
 
         if (productDescriptionText != null) {
-            productDetailDto.productDescriptionText.put(
-                    productDescriptionText.getKey(), productDescriptionText.getValue()
-            );
+            productDetailDto.productDescriptionText.put(productDescriptionText.getKey(), productDescriptionText.getValue());
         }
 
         if (productDescriptionVarchars != null) {
@@ -65,9 +63,7 @@ public class ProductDetailDto {
         }
 
         if (productImages != null) {
-            productImages.forEach(
-                    productImage -> productDetailDto.productImages.add(new ProductImageDetailDto(productImage))
-            );
+            productImages.forEach(productImage -> productDetailDto.productImages.add(new ProductImageDetailDto(productImage)));
         }
 
         return productDetailDto;

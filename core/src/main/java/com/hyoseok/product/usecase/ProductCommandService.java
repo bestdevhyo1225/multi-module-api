@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -18,11 +19,12 @@ public class ProductCommandService {
 
     private final ProductRepository productRepository;
     private final ProductQueryRepository productQueryRepository;
+    private final ProductRedisRepository productRedisRepository;
 
     public Long create(ProductMapper productMapper,
-                              ProductDescriptionTextMapper productDescriptionTextMapper,
-                              ProductDescriptionVarcharMapper productDescriptionVarcharMapper,
-                              CreateProductImageMapper productImageMapper) {
+                       ProductDescriptionTextMapper productDescriptionTextMapper,
+                       ProductDescriptionVarcharMapper productDescriptionVarcharMapper,
+                       CreateProductImageMapper productImageMapper) {
         Product product = createProduct(
                 productMapper,
                 createProductDescriptionText(productDescriptionTextMapper),
@@ -80,14 +82,35 @@ public class ProductCommandService {
     }
 
     public void update(ProductMapper productMapper,
-                              ProductDescriptionTextMapper productDescriptionTextMapper,
-                              ProductDescriptionVarcharMapper productDescriptionVarcharMapper) {
+                       ProductDescriptionTextMapper productDescriptionTextMapper,
+                       ProductDescriptionVarcharMapper productDescriptionVarcharMapper) {
         Product product = productQueryRepository.findWithFetchJoinById(productMapper.getId())
-                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
+                .orElseThrow(() -> new NoSuchElementException("Database에 존재하지 않는 상품입니다."));
 
         changeProduct(product, productMapper);
         changeProductDescriptionText(product.getProductDescriptionText(), productDescriptionTextMapper);
         changeProductDescriptionVarchars(product.getProductDescriptionVarchars(), productDescriptionVarcharMapper);
+
+        ProductCache productCache = productRedisRepository.findById(product.getId().toString()).orElse(null);
+
+        if (productCache == null) return;
+
+        productCache.refresh(
+                product.getIsSale(),
+                product.getIsUsed(),
+                product.getSupplierId(),
+                product.getSupplyPrice(),
+                product.getRecommendPrice(),
+                product.getConsumerPrice(),
+                product.getMaximum(),
+                product.getMinimum(),
+                product.getProductDescriptionText(),
+                product.getProductDescriptionVarchars(),
+                product.getProductImages(),
+                LocalDateTime.now()
+        );
+
+        productRedisRepository.save(productCache);
     }
 
     public void updateV2(Product findProduct,
