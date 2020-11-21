@@ -1,6 +1,8 @@
 package com.hyoseok.product.usecase;
 
 import com.hyoseok.product.domain.*;
+import com.hyoseok.product.exception.ErrorMessage;
+import com.hyoseok.product.exception.NotFoundProductException;
 import com.hyoseok.product.usecase.dto.ProductDetailDto;
 import com.hyoseok.product.usecase.dto.ProductPagination;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static java.util.stream.Collectors.*;
 
@@ -63,7 +64,7 @@ public class ProductQueryService {
         }
 
         Product product = productQueryRepository.findWithFetchJoinById(id)
-                .orElseThrow(() -> new NoSuchElementException("Database에 존재하지 않는 상품입니다."));
+                .orElseThrow(() -> new NotFoundProductException(ErrorMessage.NOT_FOUND_PRODUCT_IN_DATABASE));
 
         ProductDetailDto productDetailDto = ProductDetailDto.createProductDetail(
                 product.getId(),
@@ -103,7 +104,7 @@ public class ProductQueryService {
 
     public Product findPureProduct(Long id) {
         return productQueryRepository.findWithFetchJoinById(id)
-                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
+                .orElseThrow(() -> new NotFoundProductException(ErrorMessage.NOT_FOUND_PRODUCT_IN_DATABASE));
     }
 
     public Page<ProductPagination> paginationProducts(boolean useSearchBtn, int pageNo, int pageSize) {
