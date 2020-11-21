@@ -63,7 +63,7 @@ public class ProductQueryService {
         }
 
         Product product = productQueryRepository.findWithFetchJoinById(id)
-                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
+                .orElseThrow(() -> new NoSuchElementException("Database에 존재하지 않는 상품입니다."));
 
         ProductDetailDto productDetailDto = ProductDetailDto.createProductDetail(
                 product.getId(),
