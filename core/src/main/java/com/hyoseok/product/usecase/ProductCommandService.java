@@ -1,6 +1,8 @@
 package com.hyoseok.product.usecase;
 
 import com.hyoseok.product.domain.*;
+import com.hyoseok.product.exception.ErrorMessage;
+import com.hyoseok.product.exception.NotFoundProductException;
 import com.hyoseok.product.usecase.mapper.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static java.util.stream.Collectors.*;
 
@@ -85,7 +86,7 @@ public class ProductCommandService {
                        ProductDescriptionTextMapper productDescriptionTextMapper,
                        ProductDescriptionVarcharMapper productDescriptionVarcharMapper) {
         Product product = productQueryRepository.findWithFetchJoinById(productMapper.getId())
-                .orElseThrow(() -> new NoSuchElementException("Database에 존재하지 않는 상품입니다."));
+                .orElseThrow(() -> new NotFoundProductException(ErrorMessage.NOT_FOUND_PRODUCT_IN_DATABASE));
 
         changeProduct(product, productMapper);
         changeProductDescriptionText(product.getProductDescriptionText(), productDescriptionTextMapper);
