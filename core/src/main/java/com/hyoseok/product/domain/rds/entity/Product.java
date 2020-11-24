@@ -101,8 +101,14 @@ public class Product extends BaseEntity {
         return product;
     }
 
-    public void change(Boolean isSale, Boolean isUsed, int supplierId, double supplyPrice,
-                       double recommendPrice, double consumerPrice, int maximum, int minimum) {
+    public void change(Boolean isSale,
+                       Boolean isUsed,
+                       int supplierId,
+                       double supplyPrice,
+                       double recommendPrice,
+                       double consumerPrice,
+                       int maximum,
+                       int minimum) {
         this.isSale = isSale;
         this.isUsed = isUsed;
         this.supplierId = supplierId;
