@@ -78,7 +78,8 @@ public class ProductServiceManager {
 
         if (productRedis == null) return;
 
-        productRedis.refresh(
+        ProductDetailDto productDetail = ProductDetailDto.createProductDetail(
+                updatedProduct.getId(),
                 updatedProduct.getIsSale(),
                 updatedProduct.getIsUsed(),
                 updatedProduct.getSupplierId(),
@@ -89,7 +90,21 @@ public class ProductServiceManager {
                 updatedProduct.getMinimum(),
                 updatedProduct.getProductDescriptionText(),
                 updatedProduct.getProductDescriptionVarchars(),
-                updatedProduct.getProductImages(),
+                updatedProduct.getProductImages()
+        );
+
+        productRedis.refresh(
+                productDetail.getIsSale(),
+                productDetail.getIsUsed(),
+                productDetail.getSupplierId(),
+                productDetail.getSupplyPrice(),
+                productDetail.getRecommendPrice(),
+                productDetail.getConsumerPrice(),
+                productDetail.getMaximum(),
+                productDetail.getMinimum(),
+                productDetail.getProductDescriptionText(),
+                productDetail.getProductDescriptionVarchar(),
+                productDetail.getProductImages(),
                 LocalDateTime.now()
         );
 
