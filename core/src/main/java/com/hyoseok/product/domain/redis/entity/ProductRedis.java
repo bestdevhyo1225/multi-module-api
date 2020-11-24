@@ -1,5 +1,6 @@
 package com.hyoseok.product.domain.redis.entity;
 
+import com.hyoseok.product.domain.rds.usecase.dto.ProductDetailDto;
 import com.hyoseok.product.domain.rds.usecase.dto.ProductImageDetailDto;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
@@ -7,10 +8,7 @@ import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Getter
 @RedisHash(value = "product", timeToLive = 60 * 60) // timeToLive는 seconds
@@ -56,9 +54,18 @@ public class ProductRedis implements Serializable {
         productRedis.maximum = maximum;
         productRedis.minimum = minimum;
         productRedis.refreshDatetime = refreshDatetime;
-        productRedis.productDescriptionText = productDescriptionText != null ? productDescriptionText : new HashMap<>();
-        productRedis.productDescriptionVarchar = productDescriptionVarchar != null ? productDescriptionVarchar : new HashMap<>();
-        productRedis.productImages = productImages != null ? productImages : new ArrayList<>();
+
+        productRedis.productDescriptionText = productDescriptionText != null
+                ? productDescriptionText
+                : new HashMap<>();
+
+        productRedis.productDescriptionVarchar = productDescriptionVarchar != null
+                ? productDescriptionVarchar
+                : new HashMap<>();
+
+        productRedis.productImages = productImages != null
+                ? productImages
+                : new ArrayList<>();
 
         return productRedis;
     }
@@ -91,23 +98,21 @@ public class ProductRedis implements Serializable {
         this.productDescriptionVarchar.clear();
         this.productImages.clear();
 
-        this.productDescriptionText = productDescriptionText != null ? productDescriptionText : new HashMap<>();
-        this.productDescriptionVarchar = productDescriptionVarchar != null ? productDescriptionVarchar : new HashMap<>();
-        this.productImages = productImages != null ? productImages : new ArrayList<>();
-//
-//        if (productDescriptionText != null) {
-//            this.productDescriptionText.put(productDescriptionText.getKey(), productDescriptionText.getValue());
-//        }
-//
-//        if (productDescriptionVarchars != null) {
-//            productDescriptionVarchars.forEach(descriptionVarchar ->
-//                    this.productDescriptionVarchar.put(descriptionVarchar.getKey(), descriptionVarchar.getValue())
-//            );
-//        }
-//
-//        if (productImages != null) {
-//            productImages.forEach(productImage -> this.productImages.add(new ProductImageDetailDto(productImage)));
-//        }
+        if (productDescriptionText != null) {
+            List<String> keys = new ArrayList<>(productDescriptionText.keySet());
+
+            keys.forEach(key -> this.productDescriptionText.put(key, productDescriptionText.get(key)));
+        }
+
+        if (productDescriptionVarchar != null) {
+            List<String> keys = new ArrayList<>(productDescriptionVarchar.keySet());
+
+            keys.forEach(key -> this.productDescriptionVarchar.put(key, productDescriptionVarchar.get(key)));
+        }
+
+        if (productImages != null) {
+            this.productImages.addAll(productImages);
+        }
     }
 
 }
