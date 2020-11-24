@@ -1,6 +1,6 @@
 package com.hyoseok.api.response.product;
 
-import com.hyoseok.product.usecase.dto.ProductDetailDto;
+import com.hyoseok.product.domain.rds.usecase.dto.ProductDetailDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
