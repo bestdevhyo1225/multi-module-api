@@ -1,9 +1,9 @@
 package com.hyoseok.product.data;
 
-import com.hyoseok.product.domain.Product;
-import com.hyoseok.product.domain.ProductQueryRepository;
-import com.hyoseok.product.usecase.dto.FixedProductPageRequest;
-import com.hyoseok.product.usecase.dto.ProductPagination;
+import com.hyoseok.product.domain.rds.entity.Product;
+import com.hyoseok.product.domain.rds.entity.ProductQueryRepository;
+import com.hyoseok.product.domain.rds.usecase.dto.FixedProductPageRequest;
+import com.hyoseok.product.domain.rds.usecase.dto.ProductPagination;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.hyoseok.product.domain.QProduct.*;
+import static com.hyoseok.product.domain.rds.entity.QProduct.*;
 import static java.util.stream.Collectors.*;
 
 @Repository
