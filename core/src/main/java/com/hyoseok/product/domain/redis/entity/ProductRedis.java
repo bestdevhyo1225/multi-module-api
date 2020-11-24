@@ -1,8 +1,5 @@
 package com.hyoseok.product.domain.redis.entity;
 
-import com.hyoseok.product.domain.rds.entity.ProductDescriptionText;
-import com.hyoseok.product.domain.rds.entity.ProductDescriptionVarchar;
-import com.hyoseok.product.domain.rds.entity.ProductImage;
 import com.hyoseok.product.domain.rds.usecase.dto.ProductImageDetailDto;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
@@ -74,9 +71,9 @@ public class ProductRedis implements Serializable {
                         double consumerPrice,
                         int maximum,
                         int minimum,
-                        ProductDescriptionText productDescriptionText,
-                        List<ProductDescriptionVarchar> productDescriptionVarchars,
-                        List<ProductImage> productImages,
+                        Map<String, String> productDescriptionText,
+                        Map<String, String> productDescriptionVarchar,
+                        List<ProductImageDetailDto> productImages,
                         LocalDateTime refreshDatetime) {
         if (refreshDatetime.isBefore(this.refreshDatetime)) return;
 
@@ -94,19 +91,23 @@ public class ProductRedis implements Serializable {
         this.productDescriptionVarchar.clear();
         this.productImages.clear();
 
-        if (productDescriptionText != null) {
-            this.productDescriptionText.put(productDescriptionText.getKey(), productDescriptionText.getValue());
-        }
-
-        if (productDescriptionVarchars != null) {
-            productDescriptionVarchars.forEach(descriptionVarchar ->
-                    this.productDescriptionVarchar.put(descriptionVarchar.getKey(), descriptionVarchar.getValue())
-            );
-        }
-
-        if (productImages != null) {
-            productImages.forEach(productImage -> this.productImages.add(new ProductImageDetailDto(productImage)));
-        }
+        this.productDescriptionText = productDescriptionText != null ? productDescriptionText : new HashMap<>();
+        this.productDescriptionVarchar = productDescriptionVarchar != null ? productDescriptionVarchar : new HashMap<>();
+        this.productImages = productImages != null ? productImages : new ArrayList<>();
+//
+//        if (productDescriptionText != null) {
+//            this.productDescriptionText.put(productDescriptionText.getKey(), productDescriptionText.getValue());
+//        }
+//
+//        if (productDescriptionVarchars != null) {
+//            productDescriptionVarchars.forEach(descriptionVarchar ->
+//                    this.productDescriptionVarchar.put(descriptionVarchar.getKey(), descriptionVarchar.getValue())
+//            );
+//        }
+//
+//        if (productImages != null) {
+//            productImages.forEach(productImage -> this.productImages.add(new ProductImageDetailDto(productImage)));
+//        }
     }
 
 }
