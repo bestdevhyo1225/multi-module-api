@@ -55,3 +55,63 @@ docker build -f admin-api/dev.Dockerfile -t product-admin-api:latest .
 # 3) docker-compose 를 통해 Application과 MySQL 컨테이너를 실행한다.
 docker-compose -f admin-api/docker-compose.dev.yml up
 ```
+
+<br>
+
+## Directory Structure
+
+### Core 모듈
+
+```
+├── main
+│   └── java
+│       └── com
+│           └── hyoseok
+│               ├── config
+│               ├── point
+│               │   └── domain
+│               └── product
+│                   ├── application
+│                   ├── data
+│                   └── domain
+│                       ├── rds
+│                       │   ├── entity
+│                       │   └── usecase
+│                       │       ├── dto
+│                       │       ├── exception
+│                       │       └── mapper
+│                       └── redis
+│                           ├── entity
+│                           └── usecase
+└── test
+    ├── java
+    │   └── com
+    │       └── hyoseok
+    │           └── point
+    │               └── domain
+    └── resources
+```
+
+### Admin API 모듈
+
+```
+├── main
+│   ├── generated
+│   ├── java
+│   │   └── com
+│   │       └── hyoseok
+│   │           ├── aop
+│   │           ├── api
+│   │           │   ├── request
+│   │           │   │   └── product
+│   │           │   └── response
+│   │           │       └── product
+│   │           └── config
+│   └── resources
+└── test
+    ├── java
+    │   └── com
+    │       └── hyoseok
+    │           └── api
+    └── resources
+```
