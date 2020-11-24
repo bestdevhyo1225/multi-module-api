@@ -1,6 +1,5 @@
 package com.hyoseok.product.domain.redis.entity;
 
-import com.hyoseok.product.domain.rds.usecase.dto.ProductDetailDto;
 import com.hyoseok.product.domain.rds.usecase.dto.ProductImageDetailDto;
 import lombok.Getter;
 import org.springframework.data.annotation.Id;
