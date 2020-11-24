@@ -64,31 +64,42 @@ docker-compose -f admin-api/docker-compose.dev.yml up
 
 ```
 ├── main
-│   └── java
-│       └── com
-│           └── hyoseok
-│               ├── config
-│               ├── point
-│               │   └── domain
-│               └── product
-│                   ├── application
-│                   ├── data
-│                   └── domain
-│                       ├── rds
-│                       │   ├── entity
-│                       │   └── usecase
-│                       │       ├── dto
-│                       │       ├── exception
-│                       │       └── mapper
-│                       └── redis
-│                           ├── entity
-│                           └── usecase
+│   ├── java
+│   │   └── com
+│   │       └── hyoseok
+│   │           ├── config
+│   │           ├── point
+│   │           │   └── domain
+│   │           └── product
+│   │               ├── application
+│   │               ├── data
+│   │               └── domain
+│   │                   ├── rds
+│   │                   │   ├── entity
+│   │                   │   └── usecase
+│   │                   │       ├── dto
+│   │                   │       ├── exception
+│   │                   │       └── mapper
+│   │                   └── redis
+│   │                       ├── entity
+│   │                       └── usecase
+│   └── resources
 └── test
     ├── java
     │   └── com
     │       └── hyoseok
-    │           └── point
+    │           ├── point
+    │           │   └── domain
+    │           └── product
+    │               ├── application
+    │               ├── data
     │               └── domain
+    │                   ├── rds
+    │                   │   ├── entity
+    │                   │   └── usecase
+    │                   └── redis
+    │                       ├── entity
+    │                       └── usecase
     └── resources
 ```
 
