@@ -1,6 +1,5 @@
 package com.hyoseok.product.domain.rds.entity;
 
-import com.hyoseok.product.domain.rds.entity.Product;
 import com.hyoseok.product.domain.rds.usecase.dto.ProductPagination;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
