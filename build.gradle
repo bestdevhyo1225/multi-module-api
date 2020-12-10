@@ -121,18 +121,18 @@ subprojects {
 
 project(':external-api') {
 	dependencies {
-		compile project (':core')
+		implementation project (':core')
 	}
 }
 
 project(':admin-api') {
 	dependencies {
-		compile project (':core')
+		implementation project (':core')
 	}
 }
 
 project(':batch') {
 	dependencies {
-		compile project (':core')
+		implementation project (':core')
 	}
 }
